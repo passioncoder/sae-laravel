@@ -13,6 +13,12 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
+Route::get('', function() {
+
     return view('welcome');
 });
+
+
+// https://laravel.com/docs/8.x/controllers#actions-handled-by-resource-controller
+
+Route::get('/postings', 'PostingController@index')->name('postings.index');
