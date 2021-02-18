@@ -15,12 +15,13 @@ class PostingController extends Controller
     public function index()
     {
         $postings = Posting::query()
-            ->where('is_featured', true)
+            // ->where('is_featured', true)
             ->whereNotNull('published_at')
             ->orderBy('updated_at', 'desc')
-            ->get();
+            // ->get();
+            ->paginate(12);
 
-        dd($postings);
+        return view('postings.index', compact('postings')); // ['postings' => $postings]
     }
 
     /**
@@ -36,7 +37,7 @@ class PostingController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
@@ -47,18 +48,20 @@ class PostingController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param int $id
      * @return \Illuminate\Http\Response
      */
     public function show($id)
     {
-        //
+        $posting = Posting::findOrFail($id);
+
+        return view('postings.show', compact('posting'));
     }
 
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
+     * @param int $id
      * @return \Illuminate\Http\Response
      */
     public function edit($id)
@@ -69,8 +72,8 @@ class PostingController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param \Illuminate\Http\Request $request
+     * @param int $id
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id)
@@ -81,7 +84,7 @@ class PostingController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param int $id
      * @return \Illuminate\Http\Response
      */
     public function destroy($id)

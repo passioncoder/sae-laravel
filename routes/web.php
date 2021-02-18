@@ -22,3 +22,4 @@ Route::get('', function() {
 // https://laravel.com/docs/8.x/controllers#actions-handled-by-resource-controller
 
 Route::get('/postings', 'PostingController@index')->name('postings.index');
+Route::get('/postings/{id}', 'PostingController@show')->name('postings.show');
