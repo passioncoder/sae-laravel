@@ -131,8 +131,8 @@ return [
     */
 
     'custom' => [
-        'attribute-name' => [
-            'rule-name' => 'custom-message',
+        'title' => [
+            'min' => 'Dude, your title is tooooo short!',
         ],
     ],
 
@@ -147,6 +147,9 @@ return [
     |
     */
 
-    'attributes' => [],
+    'attributes' => [
+
+        'published_at' => 'publish date'
+    ],
 
 ];

@@ -22,4 +22,8 @@
 		<i class="fa fa-chevron-left"></i> {{ trans('postings.back') }}
 	</a>
 
+	<a href="{{ route('postings.edit', $posting->id) }}" class="btn btn-outline-primary">
+		<i class="fa fa-pencil"></i> Bearbeiten
+	</a>
+
 @endsection

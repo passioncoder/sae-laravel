@@ -23,3 +23,6 @@ Route::get('', function() {
 
 Route::get('/postings', 'PostingController@index')->name('postings.index');
 Route::get('/postings/{id}', 'PostingController@show')->name('postings.show');
+
+Route::get('/postings/{id}/edit', 'PostingController@edit')->name('postings.edit');
+Route::put('/postings/{id}', 'PostingController@update')->name('postings.update');
