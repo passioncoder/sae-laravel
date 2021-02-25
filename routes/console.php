@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\User;
 use Illuminate\Foundation\Inspiring;
 use Illuminate\Support\Facades\Artisan;
 
@@ -17,3 +18,30 @@ use Illuminate\Support\Facades\Artisan;
 Artisan::command('inspire', function () {
     $this->comment(Inspiring::quote());
 })->purpose('Display an inspiring quote');
+
+
+Artisan::command('import:user', function() {
+
+    $file = file_get_contents(storage_path('users.csv'));
+
+    $lines = explode(PHP_EOL, $file);
+
+    foreach ($lines as $line) {
+
+        if (empty($line)) continue;
+
+        $u = explode(',', $line);
+        $name = $u[0];
+        $email = $u[1];
+        $password = 'secret';
+        $data = compact('name','email', 'password');
+
+        /*
+        $user = new User;
+        $user->fill($data);
+        $user->save();
+        */
+
+        User::create($data);
+    }
+});

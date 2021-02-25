@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Models\Posting;
-use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 class PostingController extends Controller
@@ -15,12 +14,15 @@ class PostingController extends Controller
      */
     public function index()
     {
+        $postings = Posting::published()->featured()->latest()->paginate(15);
+
+        /*
         $postings = Posting::query()
-            // ->where('is_featured', true)
-            ->whereNotNull('published_at')
+            ->where('is_featured', true)
+            ->whereNotNull('published_at')->where('published_at', '<', now())
             ->orderBy('updated_at', 'desc')
-            // ->get();
             ->paginate(12);
+        */
 
         return view('postings.index', compact('postings')); // ['postings' => $postings]
     }
@@ -32,7 +34,9 @@ class PostingController extends Controller
      */
     public function create()
     {
-        //
+        $posting = new Posting;
+
+        return view('postings.create', compact('posting'));
     }
 
     /**
@@ -43,7 +47,19 @@ class PostingController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $this->validate($request, [
+
+            'title' => 'required|min:3|max:255',
+            'content' => 'nullable',
+            'published_at' => 'nullable|date_format:Y-m-d',
+        ]);
+
+        $posting = new Posting;
+        $posting->fill($request->all());
+        $posting->is_featured = $request->has('is_featured');
+        $posting->save();
+
+        return redirect()->route('postings.show', $posting->id)->with('success', 'Posting created! :)');
     }
 
     /**
@@ -54,7 +70,7 @@ class PostingController extends Controller
      */
     public function show($id)
     {
-        $posting = Posting::findOrFail($id);
+        $posting = Posting::published()->findOrFail($id);
 
         return view('postings.show', compact('posting'));
     }
@@ -69,7 +85,7 @@ class PostingController extends Controller
     {
         $posting = Posting::findOrFail($id);
         $posting->fill($request->old());
-        $posting->is_featured = $request->old('is_featured');
+        // $posting->is_featured = $request->old('is_featured');
 
         return view('postings.edit', compact('posting'));
     }
@@ -108,6 +124,9 @@ class PostingController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $posting = Posting::findOrFail($id);
+        $posting->delete();
+
+        return redirect()->route('postings.index')->with('success', 'Posting deleted. :(');
     }
 }

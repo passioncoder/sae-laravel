@@ -17,6 +17,9 @@
 		<li>
 			<a href="{{ route('postings.show', $posting->id) }}">
 				<span>{{ $posting->title }}</span>
+				@if($posting->user)
+					&nbsp;<span>({{ $posting->user->name }})</span>
+				@endif
 				@if($posting->is_featured)
 					<span class="badge badge-info ml-2">FEATURED!</span>
 				@endif
@@ -30,5 +33,9 @@
 	<hr>
 
 	{{ $postings->links() }}
+
+	<a href="{{ route('postings.create') }}" class="btn btn-primary">
+		<i class="fa fa-plus"></i> Create posting
+	</a>
 
 @endsection

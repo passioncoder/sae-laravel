@@ -1,17 +1,16 @@
 @extends('layouts.master')
 
-@section('title', 'Edit')
+@section('title', 'Create')
 
 @section('container')
 
-	<h1>Edit posting</h1>
+	<h1>Create posting</h1>
 
 	<hr>
 
-	<form method="post" action="{{ route('postings.update', $posting->id) }}" autocomplete="off">
+	<form method="post" action="{{ route('postings.store') }}" autocomplete="off">
 
 		@csrf
-		@method('put')
 
 		@include('postings._form')
 
@@ -21,7 +20,7 @@
 			<i class="fa fa-check"></i> Speichern
 		</button>
 
-		<a href="{{ route('postings.show', $posting->id) }}" class="btn btn-outline-primary">
+		<a href="{{ route('postings.index') }}" class="btn btn-outline-primary">
 			<i class="fa fa-chevron-left"></i> {{ trans('postings.back') }}
 		</a>
 

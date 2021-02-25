@@ -21,6 +21,27 @@ class Posting extends Model
     ];
 
 
+    // == Relations
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
+
+
+    // == Scopes
+
+    public function scopePublished($query)
+    {
+        return $query->whereNotNull('published_at')->where('published_at', '<', now());
+    }
+
+    public function scopeFeatured($query)
+    {
+        return $query->where('is_featured', true);
+    }
+
+
     // == Attributes
 
     public function setTitleAttribute($value)
