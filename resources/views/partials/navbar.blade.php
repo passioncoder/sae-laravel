@@ -31,6 +31,23 @@
             </li>
         </ul>
 
+        <ul class="navbar-nav ml-auto">
+
+            @if(auth()->check())
+                <li class="nav-item">
+                    <a class="nav-link" href="#">{{ auth()->user()->email }}</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ route('auth.getLogout') }}">Logout</a>
+                </li>
+            @else
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ route('auth.getLogin') }}">Login</a>
+                </li>
+            @endif
+
+        </ul>
+
     </div>
 
 </nav>

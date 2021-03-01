@@ -45,3 +45,8 @@ Artisan::command('import:user', function() {
         User::create($data);
     }
 });
+
+Artisan::command('p', function () {
+
+    dd(bcrypt('Passw0rt!'));
+});

@@ -15,7 +15,15 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        $users = User::factory(10)->create();
+        $admin = User::factory()->create([
+
+            'name' => 'Admin Istrator',
+            'email' => 'admin@sae-laravel.local',
+            'password' => 'secret',
+        ]);
+
+        $users = User::factory(9)->create();
+        $users->add($admin);
 
         foreach (range(1,50) as $x) {
 

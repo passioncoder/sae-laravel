@@ -14,7 +14,7 @@ class PostingController extends Controller
      */
     public function index()
     {
-        $postings = Posting::published()->featured()->latest()->paginate(15);
+        $postings = Posting::published()->latest()->with('user')->paginate(15); // ->featured()
 
         /*
         $postings = Posting::query()
@@ -57,6 +57,7 @@ class PostingController extends Controller
         $posting = new Posting;
         $posting->fill($request->all());
         $posting->is_featured = $request->has('is_featured');
+        $posting->user_id = auth()->id();
         $posting->save();
 
         return redirect()->route('postings.show', $posting->id)->with('success', 'Posting created! :)');
@@ -70,7 +71,7 @@ class PostingController extends Controller
      */
     public function show($id)
     {
-        $posting = Posting::published()->findOrFail($id);
+        $posting = Posting::findOrFail($id);
 
         return view('postings.show', compact('posting'));
     }

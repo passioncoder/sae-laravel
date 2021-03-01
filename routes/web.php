@@ -24,9 +24,17 @@ Route::get('', function() {
 // Route::resource('postings', 'PostingController');
 
 Route::get('/postings', 'PostingController@index')->name('postings.index');
-Route::get('/postings/create', 'PostingController@create')->name('postings.create');
-Route::post('/postings', 'PostingController@store')->name('postings.store');
-Route::get('/postings/{id}', 'PostingController@show')->name('postings.show');
-Route::get('/postings/{id}/edit', 'PostingController@edit')->name('postings.edit');
-Route::put('/postings/{id}', 'PostingController@update')->name('postings.update');
-Route::delete('/postings/{id}', 'PostingController@destroy')->name('postings.destroy');
+
+Route::middleware('auth')->group(function() {
+
+    Route::get('/postings/create', 'PostingController@create')->name('postings.create');
+    Route::post('/postings', 'PostingController@store')->name('postings.store');
+    Route::get('/postings/{id}', 'PostingController@show')->name('postings.show');
+    Route::get('/postings/{id}/edit', 'PostingController@edit')->name('postings.edit');
+    Route::put('/postings/{id}', 'PostingController@update')->name('postings.update');
+    Route::delete('/postings/{id}', 'PostingController@destroy')->name('postings.destroy');
+});
+
+Route::get('/login', 'AuthController@getLogin')->name('auth.getLogin');
+Route::post('/login', 'AuthController@postLogin')->name('auth.postLogin');
+Route::get('/logout', 'AuthController@getLogout')->name('auth.getLogout');
