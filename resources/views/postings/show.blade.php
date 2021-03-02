@@ -28,20 +28,24 @@
 			<i class="fa fa-chevron-left"></i> {{ trans('postings.back') }}
 		</a>
 
-		<a href="{{ route('postings.edit', $posting->id) }}" class="btn btn-outline-primary mr-2">
-			<i class="fa fa-pencil"></i> Bearbeiten
-		</a>
+		@can('update-posting', $posting)
 
-		<form method="post" action="{{ route('postings.destroy', $posting->id) }}" autocomplete="off" onsubmit="return confirm('Are you sure?')">
+			<a href="{{ route('postings.edit', $posting->id) }}" class="btn btn-outline-primary mr-2">
+				<i class="fa fa-pencil"></i> Bearbeiten
+			</a>
 
-			@csrf
-			@method('delete')
+			<form method="post" action="{{ route('postings.destroy', $posting->id) }}" autocomplete="off" onsubmit="return confirm('Are you sure?')">
 
-			<button type="submit" class="btn btn-danger">
-				<i class="fa fa-trash"></i> Löschen
-			</button>
+				@csrf
+				@method('delete')
 
-		</form>
+				<button type="submit" class="btn btn-danger">
+					<i class="fa fa-trash"></i> Löschen
+				</button>
+
+			</form>
+
+		@endcan
 
 	</div>
 

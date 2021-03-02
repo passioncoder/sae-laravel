@@ -2,6 +2,8 @@
 
 namespace App\Providers;
 
+use App\Models\Posting;
+use App\Models\User;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 use Illuminate\Support\Facades\Gate;
 
@@ -25,6 +27,11 @@ class AuthServiceProvider extends ServiceProvider
     {
         $this->registerPolicies();
 
-        //
+        // https://laravel.com/docs/8.x/authorization#gates
+
+        Gate::define('update-posting', function (User $user, Posting $posting) {
+
+            return $user->id === $posting->user_id;
+        });
     }
 }

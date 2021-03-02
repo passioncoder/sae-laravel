@@ -85,6 +85,9 @@ class PostingController extends Controller
     public function edit(Request $request, $id)
     {
         $posting = Posting::findOrFail($id);
+
+        $this->authorize('update-posting', $posting);
+
         $posting->fill($request->old());
         // $posting->is_featured = $request->old('is_featured');
 
@@ -110,6 +113,9 @@ class PostingController extends Controller
         ]);
 
         $posting = Posting::findOrFail($id);
+
+        $this->authorize('update-posting', $posting);
+
         $posting->fill($request->all());
         $posting->is_featured = $request->has('is_featured');
         $posting->save();
@@ -126,6 +132,9 @@ class PostingController extends Controller
     public function destroy($id)
     {
         $posting = Posting::findOrFail($id);
+
+        $this->authorize('update-posting', $posting);
+
         $posting->delete();
 
         return redirect()->route('postings.index')->with('success', 'Posting deleted. :(');

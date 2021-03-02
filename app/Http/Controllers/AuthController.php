@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
 
 class AuthController extends Controller
 {
@@ -27,6 +28,9 @@ class AuthController extends Controller
         $ok = auth()->attempt($credentials, $remember);
 
         if ($ok) {
+
+            auth()->user()->api_token = Str::random(60);
+            auth()->user()->save();
 
             return redirect()->route('postings.index')->with('success', 'Welcome dude!');
 
