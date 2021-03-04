@@ -8,7 +8,8 @@
 
 	<hr>
 
-	<form method="post" action="{{ route('postings.store') }}" autocomplete="off">
+	<!-- fileupload: enctype="multipart/form-data"  -->
+	<form method="post" action="{{ route('postings.store') }}" autocomplete="off" enctype="multipart/form-data">
 
 		@csrf
 

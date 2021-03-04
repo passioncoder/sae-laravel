@@ -14,7 +14,14 @@
 	<input type="date" class="form-control" id="published_at" name="published_at" value="{{ optional($posting->published_at)->format('Y-m-d') }}">
 </div>
 
+<!-- fileupload: type="file"  -->
+<div class="form-group">
+	<label for="image">Bild:</label>
+	<input type="file" class="form-control" id="image" name="image">
+</div>
+
 <div class="form-group form-check">
 	<input type="checkbox" class="form-check-input" id="is_featured" name="is_featured" {{ $posting->is_featured ? 'checked' : '' }}>
 	<label class="form-check-label" for="is_featured">Feature me</label>
 </div>
+

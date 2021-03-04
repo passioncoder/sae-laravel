@@ -8,7 +8,8 @@
 
 	<hr>
 
-	<form method="post" action="{{ route('postings.update', $posting->id) }}" autocomplete="off">
+	<!-- fileupload: enctype="multipart/form-data"  -->
+	<form method="post" action="{{ route('postings.update', $posting->id) }}" autocomplete="off" enctype="multipart/form-data">
 
 		@csrf
 		@method('put')

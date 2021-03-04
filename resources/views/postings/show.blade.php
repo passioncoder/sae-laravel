@@ -6,6 +6,17 @@
 
 	<h1>{{ $posting->title }}</h1>
 
+	@if($posting->image)
+		<img src="{{ asset('/storage/'.$posting->image) }}">
+		<!--
+		<a href="{{ asset('/storage/'.$posting->image) }}" target="_blank">Download PDF</a>
+		-->
+	@endif
+
+	<a href="{{ $qrcode->getDataUri() }}" download="qrcode.png">
+		<img src="{{ $qrcode->getDataUri() }}" width="256" height="256">
+	</a>
+
 	@if($posting->is_featured)
 		<span class="badge badge-info">FEATURED!</span>
 	@endif

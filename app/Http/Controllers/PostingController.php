@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\Posting;
 use Illuminate\Http\Request;
+use Endroid\QrCode\Builder\Builder as QR;
+use Endroid\QrCode\Writer\PngWriter;
 
 class PostingController extends Controller
 {
@@ -52,13 +54,19 @@ class PostingController extends Controller
             'title' => 'required|min:3|max:255',
             'content' => 'nullable',
             'published_at' => 'nullable|date_format:Y-m-d',
+            'image' => 'nullable|mimes:jpg,bmp,png,gif',
         ]);
 
         $posting = new Posting;
         $posting->fill($request->all());
         $posting->is_featured = $request->has('is_featured');
         $posting->user_id = auth()->id();
+
+        // fileupload: store image on disk an save path in db
+        $posting->image = $request->file('image')->store('images', 'public');
         $posting->save();
+
+        // storage-link: https://laravel.com/docs/8.x/filesystem#the-public-disk
 
         return redirect()->route('postings.show', $posting->id)->with('success', 'Posting created! :)');
     }
@@ -73,7 +81,16 @@ class PostingController extends Controller
     {
         $posting = Posting::findOrFail($id);
 
-        return view('postings.show', compact('posting'));
+        // https://github.com/endroid/qr-code
+
+        $qrcode = QR::create()
+            ->writer(new PngWriter())
+            ->writerOptions([])
+            ->size(1024)
+            ->data(route('postings.show', $id))
+            ->build();
+
+        return view('postings.show', compact('posting', 'qrcode'));
     }
 
     /**
